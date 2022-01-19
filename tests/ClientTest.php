@@ -2,6 +2,7 @@
 
 namespace Payright\Tests;
 
+use Codexpert\Faker\HttpFaker;
 use Mockery as m;
 use Payright\Client;
 use Psr\Http\Client\ClientInterface;
@@ -20,7 +21,7 @@ class ClientTest extends TestCase
 
         $response = '{"status":200,"message":"test created","data":{"id":"test"}}';
 
-        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+        $httpFaker = HttpFaker::create()->shouldResponseJson(200, [], $response);
 
         $client = new Client($httpFaker->faker(), ['api_key' => $apikey, 'sandbox' => false]);
         $viaStatic = Client::make($httpFaker->faker(), ['api_key' => $apikey, 'sandbox' => false]);

@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Codexpert\Faker\HttpFaker;
 use Mockery as m;
 use Payright\BearerAuth;
 use Payright\Client;
@@ -19,7 +20,7 @@ class BearerAuthTest extends TestCase
     {
         $response = '{"status":200,"message":"test created","data":{"id":"test"}}';
 
-        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+        $httpFaker = HttpFaker::create()->shouldResponseJson(200, [], $response);
 
         $instance = new BearerAuth(Client::make($httpFaker->faker(), []));
         $viaStatic = BearerAuth::make(Client::make($httpFaker->faker(), []));
@@ -34,7 +35,7 @@ class BearerAuthTest extends TestCase
 
         $response = '{"status":200,"message":"test created","data":{"id":"test"}}';
 
-        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+        $httpFaker = HttpFaker::create()->shouldResponseJson(200, [], $response);
 
         $auth = BearerAuth::make(new Client($httpFaker->faker(), [
             'api_key' => $data,

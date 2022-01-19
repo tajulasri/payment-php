@@ -25,6 +25,7 @@
     "php-http/multipart-stream-builder": "^1.0"
   },
   "require-dev": {
+    "codexpertmy/tests": "^1.0",
     "guzzlehttp/guzzle": "^7.4",
     "laravie/codex-common": "^1.5",
     "laravie/parser": "^2.0",

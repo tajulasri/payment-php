@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Codexpert\Faker\HttpFaker;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
@@ -26,7 +27,7 @@ class BillResourceTest extends TestCase
 
         $response = '{"status":200,"message":"test created","data":[]}';
 
-        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+        $httpFaker = HttpFaker::create()->shouldResponseJson(200, [], $response);
 
         $client = new Client($httpFaker->faker(), [
             'api_key' => $this->getApiKey(),
@@ -52,7 +53,7 @@ class BillResourceTest extends TestCase
 
         $response = '{"status":200,"message":"test created","data":{"id":"test"}}';
 
-        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+        $httpFaker = HttpFaker::create()->shouldResponseJson(200, [], $response);
 
         $body = [
             'collection' => 'test',
@@ -89,7 +90,7 @@ class BillResourceTest extends TestCase
 
         $response = '{"status":200,"message":"test created","data":{"id":"test"}}';
 
-        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+        $httpFaker = HttpFaker::create()->shouldResponseJson(200, [], $response);
 
         $client = new Client($httpFaker->faker(), [
             'api_key' => $this->getApiKey(),
@@ -114,7 +115,7 @@ class BillResourceTest extends TestCase
 
         $response = '{"status":200,"message":"test created","data":{"id":"test"}}';
 
-        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+        $httpFaker = HttpFaker::create()->shouldResponseJson(200, [], $response);
 
         $body = [
             'collection' => 'test',
@@ -151,7 +152,7 @@ class BillResourceTest extends TestCase
 
         $response = '{"status":200,"message":"test created","data":{"id":"test"}}';
 
-        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+        $httpFaker = HttpFaker::create()->shouldResponseJson(200, [], $response);
 
         $client = new Client($httpFaker->faker(), [
             'api_key' => $this->getApiKey(),
