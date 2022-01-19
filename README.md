@@ -1,4 +1,7 @@
 ## Payright PHP Package.
+
+[![tests](https://github.com/tajulasri/payright-php/actions/workflows/tests.yml/badge.svg)](https://github.com/tajulasri/payright-php/actions/workflows/tests.yml)
+
 This package is used to interacting with Payright payment API using PHP.
 
 ## Installation
