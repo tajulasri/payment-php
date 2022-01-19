@@ -62,6 +62,15 @@ class Client
     }
 
     /**
+     * @return mixed
+     */
+    public function v1(): self
+    {
+        $this->defaultVersion = 'v1';
+        return $this;
+    }
+
+    /**
      * @param string $version
      */
     public function collections( ? string $version = null)
@@ -145,7 +154,7 @@ class Client
     public function uses(string $service,  ? string $version)
     {
         if (\is_null($version) || !\array_key_exists($version, $this->supportedVersions)) {
-            throw new InvalidArgumentException("Version [{$version}] is not available.");
+            $version = $this->defaultVersion;
         }
 
         $name = str_replace('.', '\\', $service);
