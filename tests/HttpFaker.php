@@ -49,23 +49,16 @@ class HttpFaker
     }
 
     /**
-     * @return mixed
-     */
-    public function shouldHeaderResponse(): array
-    {
-        return $this->expectedResponseHeaders;
-    }
-
-    /**
      * @param int     $status
      * @param array   $headers
      * @param $body
      */
     public function shouldResponse(int $status = 200, $headers = [], $body = ''): Response
     {
-        $body = \is_array($body) ? json_encode($body) : $body;
+        $headers = array_merge(array_merge($headers, $this->shouldHeaderResponse()), ['Content-type' => 'text/plain']);
 
-        return $this->mock->append(new Response($status, $headers, $body));
+        $this->expectedJsonResponse = new Response($status, $headers, $body);
+        return $this;
     }
 
     /**
@@ -76,7 +69,10 @@ class HttpFaker
     public function shouldResponseJson(int $status = 200, $headers = [],  ? string $body = '') : self
     {
         $body = \is_array($body) ? json_encode($body) : $body;
-        $headers = array_merge($headers, ['Content-type' => 'application/json']);
+        $headers = array_merge(
+            array_merge($headers, $this->shouldHeaderResponse()),
+            ['Content-type' => 'application/json']
+        );
 
         $this->expectedJsonResponse = new Response($status, $headers, $body);
         return $this;
@@ -88,12 +84,19 @@ class HttpFaker
      */
     public function expectedJsonResponse(): Response
     {
-        return $this->expectedJsonResponse;
+        return is_null($this->expectedJsonResponse) ? new Response(200, [], '') : $this->expectedJsonResponse;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function shouldHeaderResponse(): array
+    {
+        return $this->expectedResponseHeaders;
     }
 
     public function faker(): ClientInterface
     {
-
         $handlerStack = HandlerStack::create(new MockHandler([
             $this->expectedJsonResponse(),
         ]));

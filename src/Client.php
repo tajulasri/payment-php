@@ -86,6 +86,14 @@ class Client
     }
 
     /**
+     * @param string $version
+     */
+    public function paymentchannel( ? string $version = null)
+    {
+        return $this->uses('PaymentChannel', $version);
+    }
+
+    /**
      * @return mixed
      */
     public function endpoint() : string
@@ -118,7 +126,7 @@ class Client
     /**
      * @return mixed
      */
-    public function config(): array
+    public function config() : array
     {
         return $this->config;
     }
