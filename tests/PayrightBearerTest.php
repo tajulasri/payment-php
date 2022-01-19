@@ -2,16 +2,27 @@
 
 namespace Tests;
 
+use Mockery as m;
 use Payright\BearerAuth;
 use Payright\Client;
 use Payright\Tests\TestCase;
 
 class BearerAuthTest extends TestCase
 {
+
+    protected function tearDown(): void
+    {
+        m::close();
+    }
+
     public function testItInstantiateClass()
     {
-        $instance = new BearerAuth(Client::make($this->httpClientMock(), []));
-        $viaStatic = BearerAuth::make(Client::make($this->httpClientMock(), []));
+        $response = '{"status":200,"message":"test created","data":{"id":"test"}}';
+
+        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+
+        $instance = new BearerAuth(Client::make($httpFaker->faker(), []));
+        $viaStatic = BearerAuth::make(Client::make($httpFaker->faker(), []));
 
         $this->assertInstanceOf('Payright\BearerAuth', $instance);
         $this->assertInstanceOf('Payright\BearerAuth', $viaStatic);
@@ -21,7 +32,11 @@ class BearerAuthTest extends TestCase
     {
         $data = 'test';
 
-        $auth = BearerAuth::make(new Client($this->httpClientMock(), [
+        $response = '{"status":200,"message":"test created","data":{"id":"test"}}';
+
+        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+
+        $auth = BearerAuth::make(new Client($httpFaker->faker(), [
             'api_key' => $data,
         ]));
 

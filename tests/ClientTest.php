@@ -2,18 +2,28 @@
 
 namespace Payright\Tests;
 
+use Mockery as m;
 use Payright\Client;
 use Psr\Http\Client\ClientInterface;
 
 class ClientTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        m::close();
+    }
+
     public function testItInstantiateMessage()
     {
 
         $apikey = 'test';
 
-        $client = new Client($this->httpClientMock(), ['api_key' => $apikey, 'sandbox' => false]);
-        $viaStatic = Client::make($this->httpClientMock(), ['api_key' => $apikey, 'sandbox' => false]);
+        $response = '{"status":200,"message":"test created","data":{"id":"test"}}';
+
+        $httpFaker = \Payright\Tests\HttpFaker::create()->shouldResponseJson(200, [], $response);
+
+        $client = new Client($httpFaker->faker(), ['api_key' => $apikey, 'sandbox' => false]);
+        $viaStatic = Client::make($httpFaker->faker(), ['api_key' => $apikey, 'sandbox' => false]);
 
         $this->assertInstanceOf('Payright\Client', $client);
         $this->assertInstanceOf('Payright\Client', $viaStatic);

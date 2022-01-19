@@ -29,7 +29,7 @@ class Client
     /**
      * @var mixed
      */
-    protected $useSanbox = false;
+    protected $useSandbox = false;
 
     /**
      * @var mixed
@@ -90,7 +90,7 @@ class Client
      */
     public function endpoint() : string
     {
-        return $this->useSanbox() ? $this->sandbox() : 'https://api.payright.my/';
+        return $this->useSandbox() ? $this->sandbox() : $this->endpoint;
     }
 
     /**
@@ -98,15 +98,21 @@ class Client
      */
     public function sandbox() : string
     {
-        return 'sanbonx_endpoint';
+        return 'https://uat.payright.my/api';
     }
 
     /**
      * @return mixed
      */
-    public function useSanbox() : string
+    public function useSandbox() : string
     {
-        return $this->useSanbox;
+        if (!array_key_exists('use_sandbox', $this->config())) {
+            $this->useSandbox = false;
+        } else {
+            $this->useSandbox = $this->config()['use_sandbox'];
+        }
+
+        return $this->useSandbox;
     }
 
     /**

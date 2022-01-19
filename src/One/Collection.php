@@ -39,7 +39,11 @@ class Collection extends Request
         $endpoint = $this->client->endpoint();
 
         $response = $this->client->httpClient()
-            ->get($endpoint.'/v1/collections');
+            ->request('GET', $endpoint.'/v1/collections', ['headers' => array_merge($this->client->auth()->credentials(),
+                [
+                    'Accept' => 'application/json',
+                    'Content-type' => 'application/json',
+                ])]);
 
         return $this->responseWith($response);
     }
@@ -59,10 +63,14 @@ class Collection extends Request
         );
 
         $response = $this->client->httpClient()
-            ->post($endpoint.'/v1/collections', [
-                'form_params' => $body,
+            ->request('POST', $endpoint.'/v1/collections', [
+                'body' => json_encode($body),
                 'headers' => array_merge(
-                    $this->client->auth()->credentials()
+                    $this->client->auth()->credentials(),
+                    [
+                        'Accept' => 'application/json',
+                        'Content-type' => 'application/json',
+                    ]
                 ),
             ]);
 
@@ -78,7 +86,7 @@ class Collection extends Request
         $endpoint = $this->client->endpoint();
 
         $response = $this->client->httpClient()
-            ->get($endpoint.'/v1/collections/'.$id);
+            ->request('GET', $endpoint.'/v1/collections/'.$id);
 
         return $this->responseWith($response);
     }
@@ -98,7 +106,7 @@ class Collection extends Request
         );
 
         $response = $this->client->httpClient()
-            ->put($endpoint.'/v1/collections/'.$id, [
+            ->request('PUT', $endpoint.'/v1/collections/'.$id, [
                 'form_params' => $body,
                 'headers' => array_merge(
                     $this->client->auth()->credentials()
@@ -117,7 +125,7 @@ class Collection extends Request
         $endpoint = $this->client->endpoint();
 
         $response = $this->client->httpClient()
-            ->delete($endpoint.'/v1/collections/'.$id);
+            ->request('DELETE', $endpoint.'/v1/collections/'.$id);
 
         return $this->responseWith($response);
     }
